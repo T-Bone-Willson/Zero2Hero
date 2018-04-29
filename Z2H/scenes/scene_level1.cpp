@@ -41,11 +41,13 @@ void Level1Scene::Load() {
       e->addComponent<PhysicsComponent>(false, Vector2f(40.f, 40.f));
     }
   }
-
+  
+  // This is a pretend loading screen!!!
+  /*
   //Simulate long loading times
   std::this_thread::sleep_for(std::chrono::milliseconds(3000));
   cout << " Scene 1 Load Done" << endl;
-
+  */
   setLoaded(true);
 }
 
@@ -59,7 +61,7 @@ void Level1Scene::UnLoad() {
 void Level1Scene::Update(const double& dt) {
 
   if (ls::getTileAt(player->getPosition()) == ls::END) {
-    Engine::ChangeScene((Scene*)&level2);
+    Engine::ChangeScene((Scene*)&menu); // Once reached exit, will take you back to Main Menu.
   }
   Scene::Update(dt);
 }
