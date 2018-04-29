@@ -59,7 +59,7 @@ void PlayerPhysicsComponent::update(double dt) {
     if (_grounded) {
       setVelocity(Vector2f(getVelocity().x, 0.f));
       teleport(Vector2f(pos.x, pos.y - 2.0f));
-      impulse(Vector2f(0, -6.f));
+      impulse(Vector2f(0, -10.f)); // original set at -6.f
     }
   }
 
@@ -86,8 +86,8 @@ PlayerPhysicsComponent::PlayerPhysicsComponent(Entity* p,
                                                const Vector2f& size)
     : PhysicsComponent(p, true, size) {
   _size = sv2_to_bv2(size, true);
-  _maxVelocity = Vector2f(200.f, 400.f);
-  _groundspeed = 30.f;
+  _maxVelocity = Vector2f(250.f, 450.f); // Originally set at 200.f , 400.f
+  _groundspeed = 45.f; // originaly set at 30.f
   _grounded = false;
   _body->SetSleepingAllowed(false);
   _body->SetFixedRotation(true);
