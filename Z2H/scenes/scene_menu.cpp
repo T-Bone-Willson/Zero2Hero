@@ -21,7 +21,7 @@ void MenuScene::Update(const double& dt) {
   // cout << "Menu Update "<<dt<<"\n";
 
   if (sf::Keyboard::isKeyPressed(Keyboard::Space)) {
-    Engine::ChangeScene(&level1); // can changeend number of "&level2" to 1 or 3 to change which scene boots.
+    Engine::ChangeScene(&level1); // changes to level_1.txt
   }
 
   Scene::Update(dt);
