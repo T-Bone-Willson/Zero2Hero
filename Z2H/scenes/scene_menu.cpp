@@ -12,7 +12,7 @@ void MenuScene::Load() {
   {
     auto txt = makeEntity();
     auto t = txt->addComponent<TextComponent>(
-        "Zero2Hero\nPress Space Bar to Start");
+        "                              Zero2Hero\n\n                       Press Space Bar to Start");
   }
   setLoaded(true);
 }

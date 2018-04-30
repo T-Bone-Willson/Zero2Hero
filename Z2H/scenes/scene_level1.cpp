@@ -19,6 +19,12 @@ void Level1Scene::Load() {
   auto ho = Engine::getWindowSize().y - (ls::getHeight() * 40.f);
   ls::setOffset(Vector2f(0, ho));
 
+  // Background Music
+
+  backGround_Music = Resources::get<Music>("retro_soundtrack01.ogg");
+  backGround_Music->play();
+  backGround_Music->setLoop(true);
+
   // Create player
   {
     player = makeEntity();
@@ -62,6 +68,11 @@ void Level1Scene::Load() {
 void Level1Scene::UnLoad() {
   cout << "Level 1 Unload" << endl;
   player.reset();
+
+  // Unload Background Music
+  backGround_Music->stop();
+  backGround_Music.reset();
+
   ls::unload();
   Scene::UnLoad();
 }

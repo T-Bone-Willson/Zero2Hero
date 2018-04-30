@@ -20,7 +20,8 @@ namespace Resources {
     };
     return tex;
   };
-#ifdef SOUND
+//#ifdef SOUND // Comment this out to enable sound
+
   template <> // explicit specialization for T = SoundBuffer
   std::shared_ptr<sf::SoundBuffer> load(const std::string& name) {
     auto buf = std::make_shared<sf::SoundBuffer>();
@@ -38,6 +39,7 @@ namespace Resources {
     };
     return music;
   };
-#endif // SOUND
+
+//#endif // SOUND // Comment this out to enable sound
 
 }
