@@ -13,8 +13,8 @@ using namespace sf;
 static shared_ptr<Entity> player;
 
 void Level1Scene::Load() {
-  cout << " Scene 1 Load" << endl;
-  ls::loadLevelFile("res/level_1.txt", 40.0f);
+  cout << " Level 1 Load" << endl;
+  ls::loadLevelFile("res/level_1.txt", 40.0f); // Don't touch this!
 
   auto ho = Engine::getWindowSize().y - (ls::getHeight() * 40.f);
   ls::setOffset(Vector2f(0, ho));
@@ -44,9 +44,9 @@ void Level1Scene::Load() {
       pos += Vector2f(1.f, 20.f); //offset to center 
       auto e = makeEntity();
       e->setPosition(pos);
-      e->addComponent<PhysicsComponent>(false, Vector2f(40.f, 40.f)); // Originally set 40.f, 40.f
+      e->addComponent<PhysicsComponent>(false, Vector2f(40.f, 40.f)); // Don't touch this!
 
-/*--------------------------  TRIED TO SET SPRITES TEXTURE FOR WALLS. DID NOT WORK!!!!  --------------------------*/
+//--------------------------  TRIED TO SET SPRITES TEXTURE FOR WALLS. DID NOT WORK!!!!  -------------
 	  /*
 	  auto s = e->addComponent<SpriteComponent>();
 	  auto texture2 = Resources::get<Texture>("TestWall.png");
@@ -60,7 +60,7 @@ void Level1Scene::Load() {
 }
 
 void Level1Scene::UnLoad() {
-  cout << "Scene 1 Unload" << endl;
+  cout << "Level 1 Unload" << endl;
   player.reset();
   ls::unload();
   Scene::UnLoad();
@@ -71,6 +71,12 @@ void Level1Scene::Update(const double& dt) {
   if (ls::getTileAt(player->getPosition()) == ls::END) {
     Engine::ChangeScene((Scene*)&menu); // Once reached exit, will take you back to Main Menu.
   }
+
+  // Allows you to press exit to go back to main menu.
+  if (sf::Keyboard::isKeyPressed(Keyboard::Escape)) {
+	  Engine::ChangeScene(&menu);
+  }
+
   Scene::Update(dt);
 }
 

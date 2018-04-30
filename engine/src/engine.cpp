@@ -94,9 +94,9 @@ void Engine::Start(unsigned int width, unsigned int height,
         window.close();
       }
     }
-    if (Keyboard::isKeyPressed(Keyboard::Escape)) {
+    /*if (Keyboard::isKeyPressed(Keyboard::Escape)) {
       window.close();
-    }
+    }*/
 
     window.clear();
     Update();
