@@ -2,6 +2,7 @@
 #include "../components/cmp_player_physics.h"
 #include "../components/cmp_sprite.h"
 #include "../game.h"
+#include <system_resources.h> // Allows us to use "Resources" for getting player Texture
 #include <LevelSystem.h>
 #include <iostream>
 #include <thread>
@@ -22,12 +23,22 @@ void Level1Scene::Load() {
   {
     player = makeEntity();
     player->setPosition(ls::getTilePosition(ls::findTiles(ls::START)[0]));
-    auto s = player->addComponent<ShapeComponent>();
-    s->setShape<sf::RectangleShape>(Vector2f(20.f, 30.f));
-    s->getShape().setFillColor(Color::Magenta);
-    s->getShape().setOrigin(10.f, 15.f);
+	// Changed "<ShapeComponent>" to "<SpriteComponent>" because we are now dealing with sprites
+    auto s = player->addComponent<SpriteComponent>();
+	auto texture = Resources::get<Texture>("AverageJoe.png");
+	// Set texture "texture"
+	s->setTexture(texture);
+	// Player Sprite cut out from sheet
+	s->getSprite().setTextureRect(sf::IntRect(0, 0, 64, 64));
+	s->getSprite().setOrigin(10.f, 15.f);
 
-    player->addComponent<PlayerPhysicsComponent>(Vector2f(20.f, 30.f));
+    /*s->setShape<sf::RectangleShape>(Vector2f(20.f, 30.f));
+    s->getShape().setFillColor(Color::Magenta);
+    s->getShape().setOrigin(10.f, 15.f);*/
+
+    player->addComponent<PlayerPhysicsComponent>(Vector2f(20.f, 90.f)); // Originaly set at 20.f, 30.f
+
+	//return player;
   }
 
   // Add physics colliders to level tiles.
@@ -35,10 +46,11 @@ void Level1Scene::Load() {
     auto walls = ls::findTiles(ls::WALL);
     for (auto w : walls) {
       auto pos = ls::getTilePosition(w);
-      pos += Vector2f(20.f, 20.f); //offset to center
+	  // Originaly set at 20.0f, 20.0f
+      pos += Vector2f(1.f, 20.f); //offset to center 
       auto e = makeEntity();
       e->setPosition(pos);
-      e->addComponent<PhysicsComponent>(false, Vector2f(40.f, 40.f));
+      e->addComponent<PhysicsComponent>(false, Vector2f(40.f, 40.f)); // Originally set 40.f, 40.f
     }
   }
   
