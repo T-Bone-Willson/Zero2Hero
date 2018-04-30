@@ -62,6 +62,23 @@ void Level1Scene::Load() {
     }
   }
 
+  // Add texture to "EMPTY"
+  {
+	  auto empty = ls::findTiles(ls::EMPTY);
+	  for (auto emp : empty) {
+		  auto pos = ls::getTilePosition(emp);
+		  pos += Vector2f(1.f, 20.f); //offset to center 
+		  auto e = makeEntity();
+		  e->setPosition(pos);
+		  auto s = e->addComponent<SpriteComponent>();
+		  auto texture2 = Resources::get<Texture>("TestWall.png");
+		  s->setTexture(texture2);
+		  s->getSprite().setTextureRect(sf::IntRect(0, 0, 32, 32));
+		  s->getSprite().setOrigin(s->getSprite().getLocalBounds().width / 2, s->getSprite().getLocalBounds().height / 2);
+
+	  }
+  }
+
   setLoaded(true);
 }
 
