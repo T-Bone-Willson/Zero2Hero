@@ -32,13 +32,7 @@ void Level1Scene::Load() {
 	s->getSprite().setTextureRect(sf::IntRect(0, 0, 64, 64));
 	s->getSprite().setOrigin(10.f, 15.f);
 
-    /*s->setShape<sf::RectangleShape>(Vector2f(20.f, 30.f));
-    s->getShape().setFillColor(Color::Magenta);
-    s->getShape().setOrigin(10.f, 15.f);*/
-
     player->addComponent<PlayerPhysicsComponent>(Vector2f(20.f, 90.f)); // Originaly set at 20.f, 30.f
-
-	//return player;
   }
 
   // Add physics colliders to level tiles.
@@ -51,15 +45,17 @@ void Level1Scene::Load() {
       auto e = makeEntity();
       e->setPosition(pos);
       e->addComponent<PhysicsComponent>(false, Vector2f(40.f, 40.f)); // Originally set 40.f, 40.f
+
+/*--------------------------  TRIED TO SET SPRITES TEXTURE FOR WALLS. DID NOT WORK!!!!  --------------------------*/
+	  /*
+	  auto s = e->addComponent<SpriteComponent>();
+	  auto texture2 = Resources::get<Texture>("TestWall.png");
+	  s->setTexture(texture2);
+	  s->getSprite().setTextureRect(sf::IntRect(0, 0, 32, 32));
+	  s->getSprite().setOrigin(s->getSprite().getLocalBounds().width / 2, s->getSprite().getLocalBounds().height / 2);*/
     }
   }
-  
-  // This is a pretend loading screen!!!
-  /*
-  //Simulate long loading times
-  std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-  cout << " Scene 1 Load Done" << endl;
-  */
+
   setLoaded(true);
 }
 
