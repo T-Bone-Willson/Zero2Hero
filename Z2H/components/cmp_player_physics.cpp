@@ -62,15 +62,12 @@ void PlayerPhysicsComponent::update(double dt) {
       teleport(Vector2f(pos.x, pos.y - 2.0f));
       impulse(Vector2f(0, -10.f)); // original set at -6.f
 
-	  // Sound for Jump
-	  //_jump_sound.play();
-	  //_buffer_jump = *(Resources::get<SoundBuffer>("SFX_Jump_09.wav"));
-	  //_jump_sound.setBuffer(_buffer_jump);
-    }
 	// Sound for jump... kinda
-	_jump_sound.play();
 	_buffer_jump = *(Resources::get<SoundBuffer>("SFX_Jump_09.wav"));
 	_jump_sound.setBuffer(_buffer_jump);
+	_jump_sound.play();
+    }
+	
   }
 
   //Are we in air?
