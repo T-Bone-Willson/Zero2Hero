@@ -1,0 +1,27 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+
+branches:
+  only:
+    - master
+
+configuration:
+- Release
+- Debug
+
+cache:
+- build/lib -> appveyor.yml
+
+before_build:
+- cmd: >-
+    git submodule update --init --recursive
+    
+    if not exist build\ mkdir build
+    cd build
+    
+    cmake -G "Visual Studio 15 2017 Win64" ../
+    
+build:
+  project: build/Z2H.vcxproj
+  parallel: true
+  verbosity: minimal
