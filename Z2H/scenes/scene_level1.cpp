@@ -31,14 +31,14 @@ void Level1Scene::Load() {
     player->setPosition(ls::getTilePosition(ls::findTiles(ls::START)[0]));
 	// Changed "<ShapeComponent>" to "<SpriteComponent>" because we are now dealing with sprites
     auto s = player->addComponent<SpriteComponent>();
-	auto texture = Resources::get<Texture>("AverageJoe.png");
+	auto texture = Resources::get<Texture>("AverageJoe2.png");
 	// Set texture "texture"
 	s->setTexture(texture);
 	// Player Sprite cut out from sheet
-	s->getSprite().setTextureRect(sf::IntRect(0, 0, 64, 64));
+	s->getSprite().setTextureRect(sf::IntRect(0, 0, 26, 52));
 	s->getSprite().setOrigin(10.f, 15.f);
 
-    player->addComponent<PlayerPhysicsComponent>(Vector2f(20.f, 90.f)); // Originaly set at 20.f, 30.f
+    player->addComponent<PlayerPhysicsComponent>(Vector2f(20.f, 73.f)); // Originaly set at 20.f, 30.f
   }
 
   // Add physics colliders to level tiles.
@@ -46,8 +46,8 @@ void Level1Scene::Load() {
     auto walls = ls::findTiles(ls::WALL);
     for (auto w : walls) {
       auto pos = ls::getTilePosition(w);
-	  // Originaly set at 20.0f, 20.0f
-      pos += Vector2f(1.f, 20.f); //offset to center 
+	  // Originaly don't touch Vector2f below!
+      pos += Vector2f(20.f, 20.f); //offset to center 
       auto e = makeEntity();
       e->setPosition(pos);
       e->addComponent<PhysicsComponent>(false, Vector2f(40.f, 40.f)); // Don't touch this!
