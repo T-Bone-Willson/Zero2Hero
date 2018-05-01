@@ -7,6 +7,7 @@
 class SpriteComponent : public Component {
 protected:
   std::shared_ptr<sf::Sprite> _sprite;
+  std::shared_ptr<sf::Texture> _texture;
 
 public:
   SpriteComponent() = delete;
@@ -16,6 +17,8 @@ public:
   void render() override;
 
   sf::Sprite& getSprite() const;
+  sf::Texture& getTexure() const;
+  void setTexture(std::shared_ptr<sf::Texture> tx) { _texture = tx; _sprite->setTexture(*tx); }
 
   template <typename... Targs> void setSprite(Targs... params) {
     _sprite.reset(new sf::Sprite(params...));

@@ -2,6 +2,7 @@
 #include "system_physics.h"
 #include <LevelSystem.h>
 #include <SFML/Window/Keyboard.hpp>
+#include "system_resources.h"
 
 using namespace std;
 using namespace sf;
@@ -54,13 +55,19 @@ void PlayerPhysicsComponent::update(double dt) {
   }
 
   // Handle Jump
-  if (Keyboard::isKeyPressed(Keyboard::Up)) {
+  if (Keyboard::isKeyPressed(Keyboard::Space)) {
     _grounded = isGrounded();
     if (_grounded) {
       setVelocity(Vector2f(getVelocity().x, 0.f));
       teleport(Vector2f(pos.x, pos.y - 2.0f));
-      impulse(Vector2f(0, -6.f));
+      impulse(Vector2f(0, -10.f)); // original set at -6.f
+
+	// Sound for jump... kinda
+	_buffer_jump = *(Resources::get<SoundBuffer>("SFX_Jump_09.wav"));
+	_jump_sound.setBuffer(_buffer_jump);
+	_jump_sound.play();
     }
+	
   }
 
   //Are we in air?
@@ -68,7 +75,7 @@ void PlayerPhysicsComponent::update(double dt) {
     // Check to see if we have landed yet
     _grounded = isGrounded();
     // disable friction while jumping
-    setFriction(0.f);
+    setFriction(10.f); // Originally set at 0.f
   } else {
     setFriction(0.1f);
   }
@@ -86,8 +93,8 @@ PlayerPhysicsComponent::PlayerPhysicsComponent(Entity* p,
                                                const Vector2f& size)
     : PhysicsComponent(p, true, size) {
   _size = sv2_to_bv2(size, true);
-  _maxVelocity = Vector2f(200.f, 400.f);
-  _groundspeed = 30.f;
+  _maxVelocity = Vector2f(250.f, 450.f); // Originally set at 200.f , 400.f
+  _groundspeed = 45.f; // originaly set at 30.f
   _grounded = false;
   _body->SetSleepingAllowed(false);
   _body->SetFixedRotation(true);

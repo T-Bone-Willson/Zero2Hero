@@ -2,6 +2,7 @@
 #include "../components/cmp_player_physics.h"
 #include "../components/cmp_sprite.h"
 #include "../game.h"
+#include <system_resources.h> // Allows us to use "Resources" for getting player Texture
 #include <LevelSystem.h>
 #include <iostream>
 #include <thread>
@@ -12,22 +13,32 @@ using namespace sf;
 static shared_ptr<Entity> player;
 
 void Level1Scene::Load() {
-  cout << " Scene 1 Load" << endl;
-  ls::loadLevelFile("res/level_1.txt", 40.0f);
+  cout << " Level 1 Load" << endl;
+  ls::loadLevelFile("res/level_1.txt", 40.0f); // Don't touch this!
 
   auto ho = Engine::getWindowSize().y - (ls::getHeight() * 40.f);
   ls::setOffset(Vector2f(0, ho));
+
+  // Background Music
+
+  backGround_Music = Resources::get<Music>("retro_soundtrack01.ogg");
+  backGround_Music->play();
+  backGround_Music->setLoop(true);
 
   // Create player
   {
     player = makeEntity();
     player->setPosition(ls::getTilePosition(ls::findTiles(ls::START)[0]));
-    auto s = player->addComponent<ShapeComponent>();
-    s->setShape<sf::RectangleShape>(Vector2f(20.f, 30.f));
-    s->getShape().setFillColor(Color::Magenta);
-    s->getShape().setOrigin(10.f, 15.f);
+	// Changed "<ShapeComponent>" to "<SpriteComponent>" because we are now dealing with sprites
+    auto s = player->addComponent<SpriteComponent>();
+	auto texture = Resources::get<Texture>("AverageJoe2.png");
+	// Set texture "texture"
+	s->setTexture(texture);
+	// Player Sprite cut out from sheet
+	s->getSprite().setTextureRect(sf::IntRect(0, 0, 26, 52));
+	s->getSprite().setOrigin(10.f, 15.f);
 
-    player->addComponent<PlayerPhysicsComponent>(Vector2f(20.f, 30.f));
+    player->addComponent<PlayerPhysicsComponent>(Vector2f(20.f, 73.f)); // Originaly set at 20.f, 30.f
   }
 
   // Add physics colliders to level tiles.
@@ -35,23 +46,33 @@ void Level1Scene::Load() {
     auto walls = ls::findTiles(ls::WALL);
     for (auto w : walls) {
       auto pos = ls::getTilePosition(w);
-      pos += Vector2f(20.f, 20.f); //offset to center
+	  // Originaly don't touch Vector2f below!
+      pos += Vector2f(20.f, 20.f); //offset to center 
       auto e = makeEntity();
       e->setPosition(pos);
-      e->addComponent<PhysicsComponent>(false, Vector2f(40.f, 40.f));
+      e->addComponent<PhysicsComponent>(false, Vector2f(40.f, 40.f)); // Don't touch this!
+
+//--------------------------  TRIED TO SET SPRITES TEXTURE FOR WALLS. DID NOT WORK!!!!  -------------
+	  /*
+	  auto s = e->addComponent<SpriteComponent>();
+	  auto texture2 = Resources::get<Texture>("TestWall.png");
+	  s->setTexture(texture2);
+	  s->getSprite().setTextureRect(sf::IntRect(0, 0, 32, 32));
+	  s->getSprite().setOrigin(s->getSprite().getLocalBounds().width / 2, s->getSprite().getLocalBounds().height / 2);*/
     }
   }
-
-  //Simulate long loading times
-  std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-  cout << " Scene 1 Load Done" << endl;
 
   setLoaded(true);
 }
 
 void Level1Scene::UnLoad() {
-  cout << "Scene 1 Unload" << endl;
+  cout << "Level 1 Unload" << endl;
   player.reset();
+
+  // Unload Background Music
+  backGround_Music->stop();
+  backGround_Music.reset();
+
   ls::unload();
   Scene::UnLoad();
 }
@@ -59,8 +80,14 @@ void Level1Scene::UnLoad() {
 void Level1Scene::Update(const double& dt) {
 
   if (ls::getTileAt(player->getPosition()) == ls::END) {
-    Engine::ChangeScene((Scene*)&level2);
+    Engine::ChangeScene((Scene*)&menu); // Once reached exit, will take you back to Main Menu.
   }
+
+  // Allows you to press exit to go back to main menu.
+  if (sf::Keyboard::isKeyPressed(Keyboard::Escape)) {
+	  Engine::ChangeScene(&menu);
+  }
+
   Scene::Update(dt);
 }
 
