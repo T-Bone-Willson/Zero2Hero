@@ -8,5 +8,5 @@ MenuScene menu;
 Level1Scene level1;
 
 int main() {
-	Engine::Start(1280, 720, "Platformer", &menu);
+	Engine::Start(1280, 720, "Zero2Hero", &menu);
 }
