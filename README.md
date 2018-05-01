@@ -3,6 +3,11 @@ set09121 game assignment
 
 [![Build status](https://ci.appveyor.com/api/projects/status/8m0ihcqc4gt90siw?svg=true)](https://ci.appveyor.com/project/T-Bone-Willson/zero2hero)
 
+///DOWNLOAD NOW ON itch.io\\\
+https://t-bone-willson.itch.io/zero2hero
+
+OR
+
 Instructions to build the repo:
 1. Clone repo
 2. Git Bash inside repo folder and run "git submodule --init --recursive"
